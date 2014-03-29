@@ -2,7 +2,7 @@
 
 import pygame
 
-scale = 4 #how scale the sprites are
+scale = 4 #how scaled the sprites are
 
 
 sheet = pygame.image.load('sprites.png')

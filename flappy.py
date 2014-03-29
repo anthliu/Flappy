@@ -27,17 +27,15 @@ def main():
     fps_clock = pygame.time.Clock()
     DISPLAY = pygame.display.set_mode((display_length, display_width), 0, 32)
     
-    bird_height = 100
+    bird_height = 80
     bird_fall = 0
-    ground_y = 480 - ground_height
-
-    
+    ground_y = 480 - ground_height    
 
     while True:
         #Bird update
         if bird_height >= ground_y:
-            bird_fall = 0
-            bird_height = ground_y
+            game_over()
+
         elif bird_height < ground_y:
             bird_fall += acceleration
 
@@ -57,6 +55,10 @@ def main():
         pygame.display.update()
         fps_clock.tick(FPS)
         
+def game_over():
+    print "game over!"
+    pygame.quit()
+    sys.exit()
 
 if __name__ == "__main__":
     main()
