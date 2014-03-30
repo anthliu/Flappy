@@ -13,11 +13,11 @@ class Pipe(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = scale(pygame.image.load(pipe_name), scale_mag)
         self.rect = pygame.Rect(xy_pair, self.image.get_size())
-        self.move(v_pair)
-    def move(self, v_pair):
         self.velocity = v_pair
+    def move(self, xy_pair):
+        self.rect.move_ip(xy_pair[0], xy_pair[1])
     def update(self):
-        self.rect.move(self.velocity[0], self.velocity[1])
+        self.rect = self.rect.move(self.velocity[0], self.velocity[1])
 
 class Bird(pygame.sprite.Sprite):
     def __init__(self, frame_names, xy_pair, v_pair, a_pair, j_pair):

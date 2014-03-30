@@ -1,6 +1,6 @@
 """Another clone of Flappy Bird"""
 
-import pygame, sys
+import pygame, sys, os
 import pygame.locals as py
 from random import randrange
 import sprites
@@ -21,6 +21,9 @@ pipe_verticle_space = 100
 pipe_horizontal_space = 200
 pipe_number = 3 #number of pipes loaded at a time
 
+def load_image_name(file_name):
+    return os.path.join(os.getcwd(), 'data', file_name)
+
 def main():
     pygame.init()
     fps_clock = pygame.time.Clock()
@@ -28,7 +31,7 @@ def main():
     
     ground = pygame.Rect([0, display_width - ground_height], [display_length, ground_height])
 
-    im_set = ['frame0.png', 'frame1.png', 'frame2.png']
+    im_set = map(load_image_name, ['frame0.png', 'frame1.png', 'frame2.png'])
     bird = sprites.Bird(im_set, bird_pos, bird_v, bird_a, jump_power)
 
     all_sprites = pygame.sprite.RenderPlain((bird,))
