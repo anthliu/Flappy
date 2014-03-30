@@ -4,20 +4,34 @@ import pygame
 
 scale = 4 #how scaled the sprites are
 
+def scale(image, scale):
+    size = image.get_rect().size
+    return pygame.transform.scale(image, (size[0] * scale, size[1] * scale))
 
-sheet = pygame.image.load('sprites.png')
-    
-sheet.set_clip(pygame.Rect(264,64,17,12))
-raw_bird = sheet.subsurface(sheet.get_clip())
-raw_bird_size = raw_bird.get_rect().size
-bird = pygame.transform.scale(raw_bird, (raw_bird_size[0] * scale, raw_bird_size[1] * scale))
+class Pipe(pygame.sprite.Sprite):
+    def __init__(self, pipe_name, xy_pair, v_pair):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = scale(pygame.image.load(pipe_name), scale)
+        self.rect = pygame.Rect(xy_pair, self.image.get_rect().size())
+        self.move(v_pair)
+    def move(v_pair):
+        self.velocity = v_pair
+    def update():
+        self.rect.move(self.velocity[0], self.velocity[1])
 
-sheet.set_clip(pygame.Rect(302,0,26,135))
-raw_upper_pipe = sheet.subsurface(sheet.get_clip())
-raw_upper_size = raw_upper_pipe.get_rect().size
-upper_pipe = pygame.transform.scale(raw_upper_pipe, (raw_upper_size[0] * scale, raw_upper_size[1] * scale))
-    
-sheet.set_clip(pygame.Rect(330,0,26,121))
-raw_lower_pipe = sheet.subsurface(sheet.get_clip())
-raw_lower_size = raw_lower_pipe.get_rect().size
-lower_pipe = pygame.transform.scale(raw_lower_pipe, (raw_lower_size[0] * scale, raw_lower_size[1] * scale))
+class Bird(pygame.sprite.Sprite):
+    def __init__(self, frame_names, xy_pair, v_pair, a_pair, j_pair):
+        pygame.sprite.Sprite.__init__(self)
+        self.images = []
+        for frame in frame_names:
+            self.images.append(scale(pygame.image.load(frame), scale))
+        self.image = self.images[0]
+        self.rect = pygame.Rect(xy_pair, self.image.get_rect().size())
+        self.velocity = v_pair
+        self.acceleration = a_pair
+        self.jump_force = j_pair
+    def jump():
+        self.velocity = self.jump_force
+    def update():
+        self.velocity = [self.velocity[0] + self.acceleration[0], self.velocity[1] + self.acceleration[1]]
+        self.rect.move(self.velocity[0], self.velocity[1])
