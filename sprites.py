@@ -2,21 +2,21 @@
 
 import pygame
 
-scale = 4 #how scaled the sprites are
+scale_mag = 4 #how scaled the sprites are
 
 def scale(image, scale):
-    size = image.get_rect().size
-    return pygame.transform.scale(image, (size[0] * scale, size[1] * scale))
+    size = image.get_size()
+    return pygame.transform.scale(image, (size[0] * scale_mag, size[1] * scale_mag))
 
 class Pipe(pygame.sprite.Sprite):
     def __init__(self, pipe_name, xy_pair, v_pair):
         pygame.sprite.Sprite.__init__(self)
-        self.image = scale(pygame.image.load(pipe_name), scale)
-        self.rect = pygame.Rect(xy_pair, self.image.get_rect().size())
+        self.image = scale(pygame.image.load(pipe_name), scale_mag)
+        self.rect = pygame.Rect(xy_pair, self.image.get_size())
         self.move(v_pair)
-    def move(v_pair):
+    def move(self, v_pair):
         self.velocity = v_pair
-    def update():
+    def update(self):
         self.rect.move(self.velocity[0], self.velocity[1])
 
 class Bird(pygame.sprite.Sprite):
@@ -24,14 +24,15 @@ class Bird(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.images = []
         for frame in frame_names:
-            self.images.append(scale(pygame.image.load(frame), scale))
+            self.images.append(scale(pygame.image.load(frame), scale_mag))
         self.image = self.images[0]
-        self.rect = pygame.Rect(xy_pair, self.image.get_rect().size())
+        self.rect = pygame.Rect(xy_pair, self.image.get_size())
         self.velocity = v_pair
         self.acceleration = a_pair
         self.jump_force = j_pair
-    def jump():
+    def jump(self):
         self.velocity = self.jump_force
-    def update():
+    def update(self):
         self.velocity = [self.velocity[0] + self.acceleration[0], self.velocity[1] + self.acceleration[1]]
-        self.rect.move(self.velocity[0], self.velocity[1])
+        self.rect = self.rect.move(self.velocity[0], self.velocity[1])
+

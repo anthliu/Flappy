@@ -10,9 +10,10 @@ display_length = 640
 display_width = 480
 
 bird_pos = [40, 80]
-bird_v = [5, 0]
-bird_a = [0, -2] #Acceleration downward
-jump_power = [0, 20]
+bird_v = [0, 0]
+bird_a = [0, 2] #Acceleration downward
+jump_power = [0, -20]
+scroll_speed = 5
 
 ground_height = 80
 
@@ -34,7 +35,7 @@ def main():
 
     while True:
         #Bird update
-        if bird.rect.colliderect():
+        if bird.rect.colliderect(ground):
             game_over()
 
         for event in pygame.event.get():
@@ -45,12 +46,11 @@ def main():
                 pygame.quit()
                 sys.exit()
         
-        allsprites.updates()
-        
+        all_sprites.update()
+
         DISPLAY.fill((255,255,255))
-        DISPLAY.blit(bird, (bird_x, bird_height))
     
-        allsprites.draw(DISPLAY)
+        all_sprites.draw(DISPLAY)
 
         pygame.display.update()
         fps_clock.tick(FPS)
