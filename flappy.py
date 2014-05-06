@@ -80,12 +80,11 @@ def main():
                 game_over()
             #check if pipes went off screen for upper pipes only!
             if u_pipe.rect[0] + pipe_width< 0:
-                new_u_pos, new_l_pos = pipe_positions(u_pipe.rect[0] + pipe_number * pipe_horizontal_space, random_pipe_height())
+                new_u_pos, new_l_pos = pipe_positions(u_pipe.rect.left + pipe_number * pipe_horizontal_space, random_pipe_height())
                 u_pipe.move(new_u_pos)
                 lower_pipes[index].move(new_l_pos)
-                
         for l_pipe in lower_pipes:
-            if bird.rect.colliderect(l_pipe):
+            if bird.rect.colliderect(l_pipe):                
                 game_over()
 
         for event in pygame.event.get():

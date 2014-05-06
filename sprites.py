@@ -15,7 +15,7 @@ class Pipe(pygame.sprite.Sprite):
         self.rect = pygame.Rect(xy_pair, self.image.get_size())
         self.velocity = v_pair
     def move(self, xy_pair):
-        self.rect.move_ip(xy_pair[0], xy_pair[1])
+        self.rect = pygame.Rect(xy_pair, self.image.get_size())
     def update(self):
         self.rect = self.rect.move(self.velocity[0], self.velocity[1])
 
