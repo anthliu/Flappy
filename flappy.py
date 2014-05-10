@@ -55,6 +55,9 @@ def main():
     upper_pipes = []
     lower_pipes = []    
 
+    score = 0
+    temp_score = True #makes sure when the bird passes a pipe the score does not increment twice
+
     for x in range(0, pipe_number):        
         init_x_pos = bird_pos[0] + (1 + x) * pipe_horizontal_space
         upper_pipe_pos, lower_pipe_pos = pipe_positions(init_x_pos, random_pipe_height())
@@ -69,20 +72,27 @@ def main():
 
     all_sprites = pygame.sprite.RenderPlain(sprite_list)
 
-    while True:
+
+    while True:    
         #Bird update
         if bird.rect.colliderect(ground):
             game_over()
-            
+        
         #pipe updates
         for index, u_pipe in enumerate(upper_pipes):
             if bird.rect.colliderect(u_pipe):
                 game_over()
             #check if pipes went off screen for upper pipes only!
             if u_pipe.rect[0] + pipe_width< 0:
+                temp_score = True
                 new_u_pos, new_l_pos = pipe_positions(u_pipe.rect.left + pipe_number * pipe_horizontal_space, random_pipe_height())
                 u_pipe.move(new_u_pos)
                 lower_pipes[index].move(new_l_pos)
+            #score
+            if u_pipe.rect.right < bird.rect.left and temp_score == True:
+                score += 1
+                print score
+                temp_score = False
         for l_pipe in lower_pipes:
             if bird.rect.colliderect(l_pipe):                
                 game_over()
